@@ -1,0 +1,39 @@
+name: Deploy Slack Bot to Netlify
+
+on:
+  push:
+    branches:
+      - main  # Triggers deployment on push to the `main` branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Runs the job on the latest version of Ubuntu
+
+    steps:
+      # Checkout the code from the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Adjust Node.js version as per your bot's requirement
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          npm install
+
+      # Install Netlify CLI (if you don't already have it)
+      - name: Install Netlify CLI
+        run: |
+          curl -sL https://github.com/netlify/cli/releases/download/v3.3.0/netlify-cli-linux-x64.tar.gz | tar xz -C /usr/local/bin
+
+      # Deploy to Netlify
+      - name: Deploy to Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}  # Netlify authentication token
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}        # Netlify site ID
+        run: |
+          netlify deploy --prod --dir=./netlify  # Adjust the folder path as needed
