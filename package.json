@@ -1,0 +1,15 @@
+npm install
+{
+  "name": "slack-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@slack/web-api": "^6.2.0",
+    "crypto": "^1.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "netlify dev",
+    "deploy": "netlify deploy"
+  }
+}
